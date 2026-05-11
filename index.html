@@ -692,7 +692,7 @@
     </div>
     <div class="form-group">
       <label>Email</label>
-      <input type="email" placeholder="yasermy@ymail.com"/>
+      <input type="email" placeholder="yourself@example.com"/>
     </div>
     <div class="form-row">
       <div class="form-group">
@@ -713,7 +713,15 @@
         <option>No preference</option>
       </select>
     </div>
+   <button 
+  class="btn-primary" 
+  style="width:100%;padding:1.1rem;margin-top:0.5rem;" 
+  onclick="window.location.href='mailto:yasermy@ymail.com?subject=Reservation%20Request&body=Hello%2C%20I%20would%20like%20to%20make%20a%20reservation%20request.'; setTimeout(() => alert('Thank you! We will confirm your reservation shortly.'), 500);">
+  Send Reservation Request
+</button>
+  <!-- 
     <button class="btn-primary" style="width:100%;padding:1.1rem;margin-top:0.5rem;" onclick="alert('Thank you! We will confirm your reservation shortly.')">Send Reservation Request</button>
+  -->
   </div>
 </section>
 
