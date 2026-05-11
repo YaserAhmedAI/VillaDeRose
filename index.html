@@ -675,120 +675,146 @@
       <div class="contact-item"><span class="contact-item-icon">📍</span><span>Villa De Rose, Abdullah Bridge Lane<br/>Rajbagh, Srinagar, Kashmir 190008</span></div>
       <div class="contact-item"><span class="contact-item-icon">📞</span><span>+91 91863 88633</span></div>
       <div class="contact-item"><span class="contact-item-icon">✉️</span><span>hello@villaderose.in</span></div>
-      <div class="contact-item"><span class="contact-item-icon">🕐</span><span>Check-in: 2:00 PM · Check-out: 11:00 AM</span></div>
+      <div class="contact-item"><span class="contact-item-icon">🕐</span><span>Check-in: 2:00 PM · Check-out: 11:45 AM</span></div>
     </div>
   </div>
-  <div class="booking-form">
-    <h3>Reserve Your Room</h3>
-    <div class="form-row">
-      <div class="form-group">
-        <label>First Name</label>
-        <input type="text" placeholder="Priya"/>
-      </div>
-      <div class="form-group">
-        <label>Last Name</label>
-        <input type="text" placeholder="Sharma"/>
-      </div>
+
+<div class="booking-form">
+  <h3>Reserve Your Room</h3>
+  <div class="form-row">
+    <div class="form-group">
+      <label>First Name</label>
+      <input type="text" id="firstName" placeholder="Priya"/>
     </div>
     <div class="form-group">
-      <label>Email</label>
-      <input type="email" placeholder="yourself@example.com"/>
+      <label>Last Name</label>
+      <input type="text" id="lastName" placeholder="Sharma"/>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Check-in</label>
-        <input type="date"/>
-      </div>
-      <div class="form-group">
-        <label>Check-out</label>
-        <input type="date"/>
-      </div>
+  </div>
+  <div class="form-group">
+    <label>Email</label>
+    <input type="email" id="email" placeholder="yourself@example.com"/>
+  </div>
+  <div class="form-group">
+    <label>Phone <span style="font-size:12px; color:#888; font-weight:400;">(optional)</span></label>
+    <input type="tel" id="phone" placeholder="+91 98765 43210"/>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Check-in</label>
+      <input type="date" id="checkIn"/>
     </div>
     <div class="form-group">
-      <label>Room Preference</label>
-      <select>
-        <option>The Rose Suite</option>
-        <option>Garden Room</option>
-        <option>Cozy Deluxe</option>
-        <option>No preference</option>
-      </select>
+      <label>Check-out</label>
+      <input type="date" id="checkOut"/>
     </div>
-<button
-  class="btn-primary"
-  id="resBtn"
-  style="width:100%; padding:1.1rem; margin-top:0.5rem;"
-  onclick="
-    const form = this.closest('.booking-form');
-    const inputs = form.querySelectorAll('input, select');
-    const firstName = inputs[0].value.trim();
-    const lastName  = inputs[1].value.trim();
-    const email     = inputs[2].value.trim();
-    const checkIn   = inputs[3].value;
-    const checkOut  = inputs[4].value;
-    const room      = inputs[5].value;
+  </div>
+  <div class="form-group">
+    <label>Room Preference</label>
+    <select id="roomPref">
+      <option>The Rose Suite</option>
+      <option>Garden Room</option>
+      <option>Cozy Deluxe</option>
+      <option>No preference</option>
+    </select>
+  </div>
 
-    const fields = [
-      { el: inputs[0], val: firstName, label: 'First Name' },
-      { el: inputs[1], val: lastName,  label: 'Last Name' },
-      { el: inputs[2], val: email,     label: 'Email' },
-      { el: inputs[3], val: checkIn,   label: 'Check-in date' },
-      { el: inputs[4], val: checkOut,  label: 'Check-out date' },
-    ];
+  <button
+    class="btn-primary"
+    id="resBtn"
+    style="width:100%; padding:1.1rem; margin-top:0.5rem;"
+    onclick="
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName  = document.getElementById('lastName').value.trim();
+      const email     = document.getElementById('email').value.trim();
+      const phone     = document.getElementById('phone').value.trim();
+      const checkIn   = document.getElementById('checkIn').value;
+      const checkOut  = document.getElementById('checkOut').value;
+      const room      = document.getElementById('roomPref').value;
 
-    let valid = true;
-    form.querySelectorAll('.field-error').forEach(e => e.remove());
-    form.querySelectorAll('input, select').forEach(el => el.style.borderColor = '');
+      const mandatory = [
+        { id: 'firstName', val: firstName, label: 'First Name' },
+        { id: 'lastName',  val: lastName,  label: 'Last Name' },
+        { id: 'email',     val: email,     label: 'Email' },
+        { id: 'checkIn',   val: checkIn,   label: 'Check-in date' },
+        { id: 'checkOut',  val: checkOut,  label: 'Check-out date' },
+      ];
 
-    fields.forEach(({ el, val, label }) => {
-      if (!val) {
-        valid = false;
-        el.style.borderColor = '#ef4444';
-        const err = document.createElement('span');
-        err.className = 'field-error';
-        err.style.cssText = 'color:#ef4444;font-size:12px;margin-top:3px;display:block;';
-        err.textContent = label + ' is required.';
-        el.parentNode.appendChild(err);
+      document.querySelectorAll('.field-error').forEach(e => e.remove());
+      document.querySelectorAll('.booking-form input, .booking-form select').forEach(el => el.style.borderColor = '');
+      document.getElementById('validationMsg').style.display = 'none';
+
+      let valid = true;
+      mandatory.forEach(({ id, val, label }) => {
+        if (!val) {
+          valid = false;
+          const el = document.getElementById(id);
+          el.style.borderColor = '#ef4444';
+          const err = document.createElement('span');
+          err.className = 'field-error';
+          err.style.cssText = 'color:#ef4444;font-size:12px;margin-top:3px;display:block;';
+          err.textContent = label + ' is required.';
+          el.parentNode.appendChild(err);
+        }
+      });
+
+      if (!valid) {
+        const errBox = document.getElementById('validationMsg');
+        errBox.style.display = 'flex';
+        setTimeout(() => errBox.style.display = 'none', 4000);
+        return;
       }
-    });
 
-    if (!valid) {
-      const errBox = document.getElementById('validationMsg');
-      errBox.style.display = 'flex';
-      setTimeout(() => errBox.style.display = 'none', 4000);
-      return;
-    }
+      const body =
+        'Reservation Request%0A%0A' +
+        'Name: ' + encodeURIComponent(firstName + ' ' + lastName) + '%0A' +
+        'Email: ' + encodeURIComponent(email) + '%0A' +
+        (phone ? 'Phone: ' + encodeURIComponent(phone) + '%0A' : '') +
+        'Check-in: ' + encodeURIComponent(checkIn) + '%0A' +
+        'Check-out: ' + encodeURIComponent(checkOut) + '%0A' +
+        'Room Preference: ' + encodeURIComponent(room);
 
-    const body =
-      'Reservation Request%0A%0A' +
-      'Name: ' + encodeURIComponent(firstName + ' ' + lastName) + '%0A' +
-      'Email: ' + encodeURIComponent(email) + '%0A' +
-      'Check-in: ' + encodeURIComponent(checkIn) + '%0A' +
-      'Check-out: ' + encodeURIComponent(checkOut) + '%0A' +
-      'Room Preference: ' + encodeURIComponent(room);
+      window.location.href = 'mailto:yasermy@ymail.com?subject=Reservation%20Request%20-%20' + encodeURIComponent(firstName + ' ' + lastName) + '&body=' + body;
 
-    window.location.href = 'mailto:yasermy@ymail.com?subject=Reservation%20Request%20-%20' + encodeURIComponent(firstName + ' ' + lastName) + '&body=' + body;
-    this.disabled = true;
-    this.textContent = 'Request sent';
-    document.getElementById('toast').classList.add('visible');
-  ">
-  Send Reservation Request
-</button>
+      setTimeout(() => {
+        document.getElementById('firstName').value = '';
+        document.getElementById('lastName').value  = '';
+        document.getElementById('email').value     = '';
+        document.getElementById('phone').value     = '';
+        document.getElementById('checkIn').value   = '';
+        document.getElementById('checkOut').value  = '';
+        document.getElementById('roomPref').selectedIndex = 0;
+      }, 1000);
 
-<!-- Validation error banner -->
-<div id="validationMsg" style="display:none; align-items:center; gap:10px; margin-top:0.75rem; padding:0.85rem 1rem; background:#fef2f2; border:0.5px solid #fca5a5; border-radius:8px; color:#991b1b; font-size:14px;">
-  ⚠️ Please fill in all required fields before submitting.
+      this.disabled = true;
+      this.textContent = 'Request sent';
+      document.getElementById('toast').classList.add('visible');
+
+      setTimeout(() => {
+        this.disabled = false;
+        this.textContent = 'Send Reservation Request';
+        document.getElementById('toast').classList.remove('visible');
+      }, 5000);
+    ">
+    Send Reservation Request
+  </button>
+
+  <!-- Validation error banner -->
+  <div id="validationMsg" style="display:none; align-items:center; gap:10px; margin-top:0.75rem; padding:0.85rem 1rem; background:#fef2f2; border:0.5px solid #fca5a5; border-radius:8px; color:#991b1b; font-size:14px;">
+    ⚠️ Please fill in all required fields before submitting.
+  </div>
+
+  <!-- Success toast -->
+  <div id="toast" style="display:none; align-items:center; gap:10px; margin-top:0.75rem; padding:0.85rem 1rem; background:#f0fdf4; border:0.5px solid #86efac; border-radius:8px; color:#166534; font-size:14px;">
+    ✓ Thank you! We will confirm your reservation shortly.
+  </div>
+
+  <style>
+    #toast.visible { display: flex; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+  </style>
 </div>
-
-<!-- Success toast -->
-<div id="toast" style="display:none; align-items:center; gap:10px; margin-top:0.75rem; padding:0.85rem 1rem; background:#f0fdf4; border:0.5px solid #86efac; border-radius:8px; color:#166634; font-size:14px;">
-  ✓ Thank you! We will confirm your reservation shortly.
-</div>
-
-<style>
-  #toast.visible { display: flex; animation: fadeIn 0.25s ease; }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
-  input:focus, select:focus { outline: none; }
-</style>  <!-- 
+    <!-- 
     <button class="btn-primary" style="width:100%;padding:1.1rem;margin-top:0.5rem;" onclick="alert('Thank you! We will confirm your reservation shortly.')">Send Reservation Request</button>
   -->
   </div>
