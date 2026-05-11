@@ -713,12 +713,27 @@
         <option>No preference</option>
       </select>
     </div>
-   <button 
-  class="btn-primary" 
-  style="width:100%;padding:1.1rem;margin-top:0.5rem;" 
-  onclick="window.location.href='mailto:yasermy@ymail.com?subject=Reservation%20Request&body=Hello%2C%20I%20would%20like%20to%20make%20a%20reservation%20request.'; setTimeout(() => alert('Thank you! We will confirm your reservation shortly.'), 5000);">
+  <button
+  class="btn-primary"
+  id="resBtn"
+  style="width:100%; padding:1.1rem; margin-top:0.5rem;"
+  onclick="
+    window.location.href='mailto:yasermy@ymail.com?subject=Reservation%20Request&body=Hello%2C%20I%20would%20like%20to%20make%20a%20reservation%20request.';
+    document.getElementById('resBtn').disabled = true;
+    document.getElementById('resBtn').textContent = 'Request sent';
+    document.getElementById('toast').classList.add('visible');
+  ">
   Send Reservation Request
 </button>
+
+<div id="toast" style="display:none; align-items:center; gap:10px; margin-top:0.75rem; padding:0.85rem 1rem; background:#f0fdf4; border:0.5px solid #86efac; border-radius:8px; color:#166534; font-size:14px;">
+  ✓ Thank you! We will confirm your reservation shortly.
+</div>
+
+<style>
+  #toast.visible { display: flex; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+</style>
   <!-- 
     <button class="btn-primary" style="width:100%;padding:1.1rem;margin-top:0.5rem;" onclick="alert('Thank you! We will confirm your reservation shortly.')">Send Reservation Request</button>
   -->
